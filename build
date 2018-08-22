@@ -1,0 +1,16 @@
+#!/bin/sh
+
+set -e
+
+mvn clean package
+mvn source:jar
+
+mvn deploy:deploy-file \
+  -DgroupId=blackboard.org.jenkins-ci.plugins \
+  -DartifactId=ec2 \
+  -Dpackaging=jpi \
+  -Dversion=1.41-$(git rev-parse --short HEAD) \
+  -Dfile=target/ec2.hpi \
+  -Dsources=target/ec2-sources.jar \
+  -DrepositoryId=maven-bbpd-io \
+  -Durl=http://maven.bbpd.io/content/repositories/thirdparty/
